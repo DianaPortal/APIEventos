@@ -25,6 +25,25 @@ def get_eventos():
     ]
     return jsonify(eventos_schema)
 
+# Endpoint para obtener un evento por ID
+@app.route('/api/eventos/<int:id>', methods=['GET'])
+def get_evento_by_id(id):
+    evento = Evento.query.get(id)
+    if not evento:
+        return jsonify({'error': 'Evento no encontrado'}), 404
+
+    evento_data = {
+        'id': evento.id,
+        'titulo': evento.titulo,
+        'fecha': evento.fecha,
+        'hora': evento.hora,
+        'descripcion': evento.descripcion,
+        'ubicacion': evento.ubicacion,
+        'latitud': evento.latitud,
+        'longitud': evento.longitud
+    }
+    return jsonify(evento_data)
+
 # Endpoint para agregar un nuevo evento
 @app.route('/api/eventos', methods=['POST'])
 def add_evento():
