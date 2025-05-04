@@ -16,7 +16,7 @@ def get_eventos():
         {
             'id': evento.id,
             'titulo': evento.titulo,
-            'fecha': evento.fecha.isoformat(),
+            'fecha': evento.fecha,
             'hora': evento.hora,
             'descripcion': evento.descripcion,
             'ubicacion': evento.ubicacion,
