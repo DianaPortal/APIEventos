@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, request
 from app.models import db, Evento
 from app.config import Config
+from datetime import date
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -9,12 +10,13 @@ db.init_app(app)
 # Endpoint para obtener la lista de eventos
 @app.route('/api/eventos', methods=['GET'])
 def get_eventos():
-    eventos = Evento.query.all()
+    hoy = date.today()
+    eventos = Evento.query.filter(Evento.fecha >= hoy).all()  # 👈 solo eventos futuros
     eventos_schema = [
         {
             'id': evento.id,
             'titulo': evento.titulo,
-            'fecha': evento.fecha,
+            'fecha': evento.fecha.isoformat(),
             'hora': evento.hora,
             'descripcion': evento.descripcion,
             'ubicacion': evento.ubicacion,
